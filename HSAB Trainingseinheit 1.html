@@ -469,6 +469,7 @@
       background: var(--surface-2);
       border: 1px solid rgba(80, 70, 60, .12);
       cursor: grab;
+      color: var(--text);
     }
 
     .sort-item strong {
@@ -577,6 +578,67 @@
       h1 {
         max-width: 100%;
       }
+    }
+
+    /* styles for Aufgabe 3 */
+    .task3-textarea {
+      width: 100%;
+      min-height: 140px;
+      padding: 0.85rem 1rem;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      resize: vertical;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+      transition: border-color 0.2s, outline 0.2s;
+    }
+    .task3-textarea:focus {
+      border-color: var(--primary);
+      outline: 2px solid var(--primary);
+    }
+    .password-container {
+      position: relative;
+      margin-top: 1rem;
+      padding: 1.25rem;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      box-shadow: var(--shadow);
+    }
+    .password-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: var(--text-sm);
+      transition: border-color 0.2s, outline 0.2s;
+    }
+    .password-input:focus {
+      border-color: var(--primary);
+      outline: 2px solid var(--primary);
+    }
+    .close-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0.25rem;
+      line-height: 1;
+      transition: color 0.15s ease;
+    }
+    .close-btn:hover {
+      color: var(--primary);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -718,9 +780,7 @@
           <div class="score-box"><span class="brand-sub">Serie</span><strong id="streakCount">0</strong></div>
         </div>
         <div class="help-card" style="margin-top:1rem;">
-          <strong id="helpCardTitle">Säure-Hilfe</strong>
-          <p id="helpCardText" style="margin-top:.5rem;">Harte Säuren besitzen eher hohe Ladungsdichte, weiche Säuren
-            eher niedrige Ladungsdichte und höhere Polarisierbarkeit.</p>
+
           <div style="margin-top: 1rem;">
             <strong>Trainings-Fortschritt</strong>
             <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
@@ -733,7 +793,7 @@
       <section>
         <section class="panel trainer" aria-labelledby="trainerTitle">
           <h2 id="trainerTitle">Aufgabe 1</h2>
-          <p class="lead" style="margin-top:.5rem; color: black;">Wähle zuerst, ob du Säuren oder Basen trainieren
+          <p class="lead" style="margin-top:.5rem; color: var(--text);">Wähle zuerst, ob du Säuren oder Basen trainieren
             möchtest. Danach
             ordnest du jedes Teilchen als hart oder weich ein.</p>
 
@@ -778,8 +838,8 @@
       </section>
 
       <section class="panel footnote">
-        <h2 style="margin-bottom: .75rem; color: black;">Aufgabe 2</h2>
-        <p id="aufgabe2Text" style="margin:0 0 1rem 0; color: black;">Ordne die Moleküle/Ionen den entsprechenden
+        <h2 style="margin-bottom: .75rem; color: var(--text);">Aufgabe 2</h2>
+        <p id="aufgabe2Text" style="margin:0 0 1rem 0; color: var(--text);">Ordne die Moleküle/Ionen den entsprechenden
           Positionen von weich
           zu hart anhand des HSAB-Konzeptes zu.</p>
         <div class="controls" style="margin-bottom:1rem; flex-wrap: wrap; gap: 0.5rem;">
@@ -811,6 +871,63 @@
           </div>
         </details>
         <p id="sortFeedback" style="margin-top:1rem; color: var(--muted);"></p>
+      </section>
+
+      <section class="panel trainer" style="margin-top: 1.5rem;" id="aufgabe3Section">
+        <h2 style="margin-bottom: .75rem; color: var(--text);">Aufgabe 3</h2>
+        <p id="aufgabe3Text" style="margin:0 0 1.25rem 0; color: var(--text);">
+          Zu Beginn des Unterrichts hatten wir jeweils Kupfer und Neodym in Wasser gelöst. Begründe anhand des HSAB-Konzeptes, welches der beiden Metalle besser mit Wasser reagiert.
+        </p>
+
+        <!-- Lösung überprüfen Button -->
+        <div id="task3ActionContainer" style="margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
+          <div>
+            <button class="btn btn-primary" type="button" id="checkSolutionBtn">Lösung überprüfen</button>
+          </div>
+
+          <!-- Passwort-Eingabeblock (versteckt) -->
+          <div id="passwordBlock" class="password-container" style="display: none;">
+            <button type="button" class="close-btn" id="closePasswordBtn" aria-label="Passwortabfrage schließen">&times;</button>
+            <p style="margin: 0 0 1rem 0; padding-right: 1.5rem; font-size: var(--text-sm); color: var(--text);">
+              Zeige der Lehrkraft deine Lösung. Diese gibt dir dann ein Passwort zur Musterlösung.
+            </p>
+            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+              <input type="password" class="password-input" id="task3Password" placeholder="Passwort eingeben" />
+              <button class="btn btn-primary" type="button" id="submitPasswordBtn" style="min-height: 38px; padding: 0.5rem 1.2rem; font-size: var(--text-sm);">Bestätigen</button>
+            </div>
+            <p id="passwordError" style="margin-top: 0.6rem; margin-bottom: 0; color: var(--hard); font-size: var(--text-sm); font-weight: 600; display: none;"></p>
+          </div>
+        </div>
+
+        <!-- Antwort-Textfeld -->
+        <div style="position: relative;">
+          <textarea class="task3-textarea" id="task3Textarea" maxlength="1000" placeholder="Schreibe deine Begründung hier..."></textarea>
+        </div>
+
+        <!-- Tipp & Zeichenzählung auf einer Zeile -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+          <details id="task3Hint" style="font-size: var(--text-sm); cursor: pointer;">
+            <summary style="font-weight: 600; color: var(--primary-2);">Tipp anzeigen</summary>
+          </details>
+          <div id="task3CharCount" style="font-size: var(--text-xs); color: var(--muted);">
+            0 / 1000 Zeichen
+          </div>
+        </div>
+
+        <!-- Tipp-Inhalt (gesteuert über JS) -->
+        <div id="task3HintContent" style="display: none; padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text); line-height: 1.5;">
+          Kupfer liegt im Wasser als Cu<sup>2+</sup> und Neodym als Nd<sup>3+</sup> vor.
+        </div>
+
+        <!-- Musterlösung (versteckt) -->
+        <div id="task3SolutionBlock" style="display: none; margin-top: 1.5rem; padding: 1.25rem; background: rgba(63, 125, 45, 0.08); border-left: 4px solid var(--ok); border-radius: var(--r-md);">
+          <strong style="display: block; font-size: var(--text-base); color: var(--ok); margin-bottom: 0.5rem;">Musterlösung:</strong>
+          <p style="margin: 0; color: var(--text); line-height: 1.6; font-size: var(--text-sm);">
+            Wasser ist aufgrund der hohen Elektronegativitätsdifferenz und hohen Ladungsdichte am Sauerstoff schlecht polarisierbar. Dementsprechend handelt es sich bei Wasser um eine harte Base.<br><br>
+            Da nach dem HSAB-Konzept hart mit hart gut reagiert, wird das härtere Metallion besser mit Wasser als Säure reagieren, indem es einen Komplex ausbildet. Da Neodym als Nd<sup>3+</sup> vorliegt besitzt es eine höhere Ladung im Vergleich zum Cu<sup>2+</sup>. Zusätzlich besitzt das Nd<sup>3+</sup> kernnahe Elektronen, was zu einer erhöhten Ladungsdichte führt, obwohl der Ionenradius von Cu<sup>2+</sup> (4. Periode) kleiner ist als von Nd<sup>3+</sup> (6. Periode).<br><br>
+            Folglich ist Nd<sup>3+</sup> härter als Cu<sup>2+</sup> und reagiert besser mit Wasser.
+          </p>
+        </div>
       </section>
     </main>
   </div>
@@ -1015,8 +1132,7 @@
       document.getElementById('statsAcidBtn').className = 'btn btn-primary';
       document.getElementById('statsBaseBtn').className = 'btn btn-secondary';
       document.getElementById('helpLeadText').textContent = 'Diese Statistik und Hilfe gilt für Säureaufgaben.';
-      document.getElementById('helpCardTitle').textContent = 'Säure-Hilfe';
-      document.getElementById('helpCardText').textContent = 'Harte Säuren besitzen eher hohe Ladungsdichte, weiche Säuren eher niedrige Ladungsdichte und höhere Polarisierbarkeit.';
+
       renderStats();
     });
 
@@ -1025,8 +1141,7 @@
       document.getElementById('statsBaseBtn').className = 'btn btn-primary';
       document.getElementById('statsAcidBtn').className = 'btn btn-secondary';
       document.getElementById('helpLeadText').textContent = 'Diese Statistik und Hilfe gilt für Basenaufgaben.';
-      document.getElementById('helpCardTitle').textContent = 'Basen-Hilfe';
-      document.getElementById('helpCardText').textContent = 'Harte Basen haben fest gebundene Valenzelektronen und geringe Polarisierbarkeit, weiche Basen haben locker gebundene Valenzelektronen und hohe Polarisierbarkeit.';
+
       renderStats();
     });
 
@@ -1366,6 +1481,81 @@
     document.querySelector('[data-theme-toggle]').addEventListener('click', () => {
       theme = theme === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', theme);
+    });
+
+    // === Aufgabe 3 Logic ===
+    const task3Textarea = document.getElementById('task3Textarea');
+    const task3CharCount = document.getElementById('task3CharCount');
+    const checkSolutionBtn = document.getElementById('checkSolutionBtn');
+    const passwordBlock = document.getElementById('passwordBlock');
+    const closePasswordBtn = document.getElementById('closePasswordBtn');
+    const task3PasswordInput = document.getElementById('task3Password');
+    const submitPasswordBtn = document.getElementById('submitPasswordBtn');
+    const passwordError = document.getElementById('passwordError');
+    const task3SolutionBlock = document.getElementById('task3SolutionBlock');
+    const task3Hint = document.getElementById('task3Hint');
+    const task3HintContent = document.getElementById('task3HintContent');
+
+    // SHA-256 hash of "Lanthanoide!"
+    const targetPasswordHash = 'd70a42586ff611f934449826b7bfdef36d2fd72efaa908ea66011e4ea2122c6c';
+
+    // Character counter for textarea
+    task3Textarea.addEventListener('input', () => {
+      const len = task3Textarea.value.length;
+      task3CharCount.textContent = `${len} / 1000 Zeichen`;
+    });
+
+    // Toggle hint content display
+    task3Hint.addEventListener('toggle', () => {
+      task3HintContent.style.display = task3Hint.open ? 'block' : 'none';
+    });
+
+    // Show password block
+    checkSolutionBtn.addEventListener('click', () => {
+      passwordBlock.style.display = 'block';
+      checkSolutionBtn.style.display = 'none';
+      passwordError.style.display = 'none';
+      task3PasswordInput.value = '';
+      task3PasswordInput.focus();
+    });
+
+    // Close password block
+    closePasswordBtn.addEventListener('click', () => {
+      passwordBlock.style.display = 'none';
+      checkSolutionBtn.style.display = 'block';
+    });
+
+    // Helper to calculate SHA-256 hash of a string
+    async function sha256(str) {
+      const buf = new TextEncoder().encode(str);
+      const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+      const hashArray = Array.from(new Uint8Array(hashBuf));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // Submit password verification
+    async function verifyPassword() {
+      const enteredPassword = task3PasswordInput.value;
+      const hashedVal = await sha256(enteredPassword);
+
+      if (hashedVal === targetPasswordHash) {
+        // Success
+        passwordBlock.style.display = 'none';
+        checkSolutionBtn.style.display = 'none';
+        task3SolutionBlock.style.display = 'block';
+      } else {
+        // Incorrect password
+        passwordError.textContent = 'Falsches Passwort! Bitte frage deine Lehrkraft.';
+        passwordError.style.display = 'block';
+      }
+    }
+
+    submitPasswordBtn.addEventListener('click', verifyPassword);
+    task3PasswordInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        verifyPassword();
+      }
     });
 
     renderCard();
