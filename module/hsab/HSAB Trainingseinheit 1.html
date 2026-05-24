@@ -147,6 +147,11 @@
       background: var(--surface);
       color: var(--text);
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      font-size: 1.15rem;
     }
 
     .hero,
@@ -595,10 +600,12 @@
       box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
       transition: border-color 0.2s, outline 0.2s;
     }
+
     .task3-textarea:focus {
       border-color: var(--primary);
       outline: 2px solid var(--primary);
     }
+
     .password-container {
       position: relative;
       margin-top: 1rem;
@@ -608,6 +615,7 @@
       border-radius: var(--r-md);
       box-shadow: var(--shadow);
     }
+
     .password-input {
       flex: 1;
       min-width: 200px;
@@ -619,10 +627,12 @@
       font-size: var(--text-sm);
       transition: border-color 0.2s, outline 0.2s;
     }
+
     .password-input:focus {
       border-color: var(--primary);
       outline: 2px solid var(--primary);
     }
+
     .close-btn {
       position: absolute;
       top: 0.75rem;
@@ -637,6 +647,7 @@
       line-height: 1;
       transition: color 0.15s ease;
     }
+
     .close-btn:hover {
       color: var(--primary);
     }
@@ -712,8 +723,11 @@
                 <summary style="font-weight: 600; color: var(--primary-2);">Beispiel ansehen</summary>
                 <div
                   style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">
-                  Mg<sup>2+</sup> besitzt kleinen Radius, da es sich es in der 2. Periode befindet, und ist geladen. Damit ist die Ladungsdichte hoch. Dementsprechend wäre Mg<sup>2+</sup> hart.<br><br>
-                  Cd<sup>2+</sup> hingegen befindet sich in der 4. Periode, also hat einen deutlich größeren Ionenradius. Da es dieselbe Ladung besitzt, ergibt sich somit eine geringe Ladungsdichte. Cd<sup>2+</sup> ist dementsprechend weich.
+                  Mg<sup>2+</sup> besitzt kleinen Radius, da es sich es in der 2. Periode befindet, und ist geladen.
+                  Damit ist die Ladungsdichte hoch. Dementsprechend wäre Mg<sup>2+</sup> hart.<br><br>
+                  Cd<sup>2+</sup> hingegen befindet sich in der 4. Periode, also hat einen deutlich größeren
+                  Ionenradius. Da es dieselbe Ladung besitzt, ergibt sich somit eine geringe Ladungsdichte.
+                  Cd<sup>2+</sup> ist dementsprechend weich.
                 </div>
               </details>
             </li>
@@ -742,13 +756,20 @@
               </details>
             </li>
             <li style="margin-bottom: 0.75rem;">
-              <strong>...schlechter die Polarisierbarkeit</strong> (= wie sehr reagiert ein Molekül/Ion auf äußere elektrische Einwirkungen. Unter anderem abhängig von der Elektronegativität und Molekülgeometrie).
+              <strong>...schlechter die Polarisierbarkeit</strong> (= wie sehr reagiert ein Molekül/Ion auf äußere
+              elektrische Einwirkungen. Unter anderem abhängig von der Elektronegativität und Molekülgeometrie).
               <details style="margin-top: 0.25rem; font-size: var(--text-sm); cursor: pointer;">
                 <summary style="font-weight: 600; color: var(--primary-2);">Beispiel ansehen</summary>
                 <div
                   style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">
-                  F<sup>-</sup> (hart) ist schlechter polarisierbar als I<sup>-</sup> (weich). Denn die Elektronen der Valenzschale beim F<sup>-</sup> sind deutlich näher am Kern als bei I<sup>-</sup> und somit weniger beeinflussbar durch äußere Ladungseinflüsse (z.B. ein anderes Ion).<br><br>
-                  NH<sub>3</sub> gilt als harte Base, wohingegen PH<sub>3</sub> als weiche Base gilt. Beide sind prinzipiell polarisierbar. Aufgrund der hohen ΔEN(N)= 3,0 im Vergleich zu ΔEN(P)= 2,2, und der geringeren Größe von Stickstoff in Vergleich zu Phosphor, liegt der Ladungsschwerpunkt innerhalb der Moleküle deutlich mehr beim N als bei P. Das führt zu einer schlechteren Polarisierbarkeit von NH<sub>3</sub> im Vergleich zu PH<sub>3</sub>.
+                  F<sup>-</sup> (hart) ist schlechter polarisierbar als I<sup>-</sup> (weich). Denn die Elektronen der
+                  Valenzschale beim F<sup>-</sup> sind deutlich näher am Kern als bei I<sup>-</sup> und somit weniger
+                  beeinflussbar durch äußere Ladungseinflüsse (z.B. ein anderes Ion).<br><br>
+                  NH<sub>3</sub> gilt als harte Base, wohingegen PH<sub>3</sub> als weiche Base gilt. Beide sind
+                  prinzipiell polarisierbar. Aufgrund der hohen ΔEN(N)= 3,0 im Vergleich zu ΔEN(P)= 2,2, und der
+                  geringeren Größe von Stickstoff in Vergleich zu Phosphor, liegt der Ladungsschwerpunkt innerhalb der
+                  Moleküle deutlich mehr beim N als bei P. Das führt zu einer schlechteren Polarisierbarkeit von
+                  NH<sub>3</sub> im Vergleich zu PH<sub>3</sub>.
                 </div>
               </details>
             </li>
@@ -820,7 +841,8 @@
             </div>
             <details id="specificHint"
               style="margin-top: 1rem; font-size: var(--text-sm); cursor: pointer; display: none;">
-              <summary style="font-weight: 600; color: var(--primary-2);">Molekül/Ion-spezifischer Tipp anzeigen</summary>
+              <summary style="font-weight: 600; color: var(--primary-2);">Molekül/Ion-spezifischer Tipp anzeigen
+              </summary>
               <div id="specificHintText"
                 style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text); line-height: 1.5;">
               </div>
@@ -876,32 +898,39 @@
       <section class="panel trainer" style="margin-top: 1.5rem;" id="aufgabe3Section">
         <h2 style="margin-bottom: .75rem; color: var(--text);">Aufgabe 3</h2>
         <p id="aufgabe3Text" style="margin:0 0 1.25rem 0; color: var(--text);">
-          Zu Beginn des Unterrichts hatten wir jeweils Kupfer und Neodym in Wasser gelöst. Begründe anhand des HSAB-Konzeptes, welches der beiden Metalle besser mit Wasser reagiert.
+          Zu Beginn des Unterrichts hatten wir jeweils Kupfer und Neodym in Wasser gelöst. Begründe anhand des
+          HSAB-Konzeptes, welches der beiden Metalle besser mit Wasser reagiert.
         </p>
 
         <!-- Lösung überprüfen Button -->
-        <div id="task3ActionContainer" style="margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
+        <div id="task3ActionContainer"
+          style="margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
           <div>
             <button class="btn btn-primary" type="button" id="checkSolutionBtn">Lösung überprüfen</button>
           </div>
 
           <!-- Passwort-Eingabeblock (versteckt) -->
           <div id="passwordBlock" class="password-container" style="display: none;">
-            <button type="button" class="close-btn" id="closePasswordBtn" aria-label="Passwortabfrage schließen">&times;</button>
+            <button type="button" class="close-btn" id="closePasswordBtn"
+              aria-label="Passwortabfrage schließen">&times;</button>
             <p style="margin: 0 0 1rem 0; padding-right: 1.5rem; font-size: var(--text-sm); color: var(--text);">
               Zeige der Lehrkraft deine Lösung. Diese gibt dir dann ein Passwort zur Musterlösung.
             </p>
             <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
               <input type="password" class="password-input" id="task3Password" placeholder="Passwort eingeben" />
-              <button class="btn btn-primary" type="button" id="submitPasswordBtn" style="min-height: 38px; padding: 0.5rem 1.2rem; font-size: var(--text-sm);">Bestätigen</button>
+              <button class="btn btn-primary" type="button" id="submitPasswordBtn"
+                style="min-height: 38px; padding: 0.5rem 1.2rem; font-size: var(--text-sm);">Bestätigen</button>
             </div>
-            <p id="passwordError" style="margin-top: 0.6rem; margin-bottom: 0; color: var(--hard); font-size: var(--text-sm); font-weight: 600; display: none;"></p>
+            <p id="passwordError"
+              style="margin-top: 0.6rem; margin-bottom: 0; color: var(--hard); font-size: var(--text-sm); font-weight: 600; display: none;">
+            </p>
           </div>
         </div>
 
         <!-- Antwort-Textfeld -->
         <div style="position: relative;">
-          <textarea class="task3-textarea" id="task3Textarea" maxlength="1000" placeholder="Schreibe deine Begründung hier..."></textarea>
+          <textarea class="task3-textarea" id="task3Textarea" maxlength="1000"
+            placeholder="Schreibe deine Begründung hier..."></textarea>
         </div>
 
         <!-- Tipp & Zeichenzählung auf einer Zeile -->
@@ -915,16 +944,24 @@
         </div>
 
         <!-- Tipp-Inhalt (gesteuert über JS) -->
-        <div id="task3HintContent" style="display: none; padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text); line-height: 1.5;">
+        <div id="task3HintContent"
+          style="display: none; padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text); line-height: 1.5;">
           Kupfer liegt im Wasser als Cu<sup>2+</sup> und Neodym als Nd<sup>3+</sup> vor.
         </div>
 
         <!-- Musterlösung (versteckt) -->
-        <div id="task3SolutionBlock" style="display: none; margin-top: 1.5rem; padding: 1.25rem; background: rgba(63, 125, 45, 0.08); border-left: 4px solid var(--ok); border-radius: var(--r-md);">
-          <strong style="display: block; font-size: var(--text-base); color: var(--ok); margin-bottom: 0.5rem;">Musterlösung:</strong>
+        <div id="task3SolutionBlock"
+          style="display: none; margin-top: 1.5rem; padding: 1.25rem; background: rgba(63, 125, 45, 0.08); border-left: 4px solid var(--ok); border-radius: var(--r-md);">
+          <strong
+            style="display: block; font-size: var(--text-base); color: var(--ok); margin-bottom: 0.5rem;">Musterlösung:</strong>
           <p style="margin: 0; color: var(--text); line-height: 1.6; font-size: var(--text-sm);">
-            Wasser ist aufgrund der hohen Elektronegativitätsdifferenz und hohen Ladungsdichte am Sauerstoff schlecht polarisierbar. Dementsprechend handelt es sich bei Wasser um eine harte Base.<br><br>
-            Da nach dem HSAB-Konzept hart mit hart gut reagiert, wird das härtere Metallion besser mit Wasser als Säure reagieren, indem es einen Komplex ausbildet. Da Neodym als Nd<sup>3+</sup> vorliegt besitzt es eine höhere Ladung im Vergleich zum Cu<sup>2+</sup>. Zusätzlich besitzt das Nd<sup>3+</sup> kernnahe Elektronen, was zu einer erhöhten Ladungsdichte führt, obwohl der Ionenradius von Cu<sup>2+</sup> (4. Periode) kleiner ist als von Nd<sup>3+</sup> (6. Periode).<br><br>
+            Wasser ist aufgrund der hohen Elektronegativitätsdifferenz und hohen Ladungsdichte am Sauerstoff schlecht
+            polarisierbar. Dementsprechend handelt es sich bei Wasser um eine harte Base.<br><br>
+            Da nach dem HSAB-Konzept hart mit hart gut reagiert, wird das härtere Metallion besser mit Wasser als Säure
+            reagieren, indem es einen Komplex ausbildet. Da Neodym als Nd<sup>3+</sup> vorliegt besitzt es eine höhere
+            Ladung im Vergleich zum Cu<sup>2+</sup>. Zusätzlich besitzt das Nd<sup>3+</sup> kernnahe Elektronen, was zu
+            einer erhöhten Ladungsdichte führt, obwohl der Ionenradius von Cu<sup>2+</sup> (4. Periode) kleiner ist als
+            von Nd<sup>3+</sup> (6. Periode).<br><br>
             Folglich ist Nd<sup>3+</sup> härter als Cu<sup>2+</sup> und reagiert besser mit Wasser.
           </p>
         </div>
