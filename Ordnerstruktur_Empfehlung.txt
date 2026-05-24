@@ -1,0 +1,45 @@
+# Empfehlung zur Ordnerstruktur für Lernmodule
+
+Wenn ein Webprojekt aus mehreren Modulen, Assets und Quiz-Komponenten besteht, 
+ist eine saubere Ordnerstruktur wichtig, um die Übersicht zu behalten.
+
+Hier ist eine Empfehlung, wie das Projektverzeichnis (`docs`) aufgeräumt werden kann:
+
+docs/
+├── index.html                   <-- Das Hauptmenü/Dashboard
+├── assets.html                  <-- Die Design-Referenz (Styleguide)
+│
+├── css/                         <-- Alle ausgelagerten Stylesheets
+│   ├── main.css                 <-- (Optional) Globale Variablen & Basis-Styles, die jede Datei nutzt
+│   └── dashboard.css            <-- (Optional) Spezifische Styles für das Dashboard
+│
+├── js/                          <-- Gemeinsam genutzte Scripte
+│   ├── theme-toggle.js          <-- Ausgelagerte Logik für den Dark/Light Mode
+│   └── shared-logic.js          <-- (Optional) Gemeinsame Hilfsfunktionen
+│
+├── medien/                      <-- Alle statischen Dateien (Bilder, PDFs, Videos)
+│   ├── icons/
+│   ├── bilder/
+│   └── material/                <-- (z.B. HSAB Nr.3 Übungsbeispiele.docx)
+│
+├── module/                      <-- Hier liegen die eigentlichen Trainingseinheiten
+│   ├── hsab/
+│   │   └── hsab-trainingseinheit-1.html
+│   ├── farbigkeit/
+│   │   └── farbigkeit-trainingseinheit-2.html
+│   └── anwendungen/
+│       └── anwendungen-trainingseinheit-3.html
+│
+└── quiz/                        <-- Spezifische Quizze oder Unterprojekte
+    └── geschichte/
+        └── index.html
+
+
+==============================================================
+TIPP ZUM ERWEITERN:
+==============================================================
+- Wenn neue Module in eigenen Unterordnern (wie z.B. `/module/neues-modul/index.html`) liegen, 
+  müssen die Pfade in der `index.html` angepasst werden.
+- Aktuell liegen die HTML-Dateien ("HSAB Trainingseinheit 1.html" etc.) direkt im 
+  Hauptordner (`docs`). Solange das Projekt klein ist, ist das in Ordnung. 
+  Sobald es 5-10 Dateien überschreitet, lohnt sich das Verschieben in einen `/module/` Ordner.
