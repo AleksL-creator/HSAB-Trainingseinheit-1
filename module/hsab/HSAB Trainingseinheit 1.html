@@ -139,6 +139,21 @@
       color: var(--muted);
     }
 
+    .lang-toggle {
+      min-width: 60px;
+      min-height: 44px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      font-size: 1rem;
+    }
+
     .theme-toggle {
       min-width: 44px;
       min-height: 44px;
@@ -667,10 +682,17 @@
     <header class="topbar">
       <div class="brand">
         <div>
-          <div class="brand-title">Übungen zum HSAB-Konzept</div>
+          <div class="brand-title" id="brandTitle">Übungen zum HSAB-Konzept</div>
         </div>
       </div>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Farbschema wechseln">◐</button>
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <button class="lang-toggle" type="button" id="langToggle" aria-label="Sprache wechseln">
+          <span id="langDe" style="font-weight: bold; color: var(--primary);">DE</span>
+          <span style="margin: 0 6px; color: var(--border);">|</span>
+          <span id="langEn" style="color: var(--muted);">EN</span>
+        </button>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Farbschema wechseln">◐</button>
+      </div>
     </header>
 
     <section class="hero">
@@ -1595,8 +1617,365 @@
       }
     });
 
+    // === Language Toggle and Translation Logic ===
+    let currentLang = 'de';
+    const langToggle = document.getElementById('langToggle');
+    const langDe = document.getElementById('langDe');
+    const langEn = document.getElementById('langEn');
+    const htmlEl = document.documentElement;
+
+    const dict = {
+      brandTitle: { de: 'Übungen zum HSAB-Konzept', en: 'Exercises for the HSAB Concept' },
+      skipLink: { de: 'Zum Inhalt springen', en: 'Skip to content' },
+      heroH1: { de: 'Trainiere, ob Teilchen hart oder weich sind.', en: 'Practice identifying if particles are hard or soft.' },
+      heroLead: { de: 'Lies dir zuerst den Info-Text durch, falls nötig, klicke auf die Pfeile um dir Beispiele anzusehen.', en: 'Read the info text first if necessary, click the arrows to see examples.' },
+      startBtn: { de: 'Training starten', en: 'Start training' },
+      legendHart: { de: '<span class="dot" style="background: var(--hard);"></span>hart', en: '<span class="dot" style="background: var(--hard);"></span>hard' },
+      legendWeich: { de: '<span class="dot" style="background: var(--soft);"></span>weich', en: '<span class="dot" style="background: var(--soft);"></span>soft' },
+      helpTitle: { de: 'Lernhilfe', en: 'Learning Aid' },
+      statsAcidBtn: { de: 'Säuren', en: 'Acids' },
+      statsBaseBtn: { de: 'Basen', en: 'Bases' },
+      lblRichtig: { de: 'Richtig', en: 'Correct' },
+      lblFalsch: { de: 'Falsch', en: 'Incorrect' },
+      lblQuote: { de: 'Quote', en: 'Rate' },
+      lblSerie: { de: 'Serie', en: 'Streak' },
+      lblFortschritt: { de: 'Trainings-Fortschritt', en: 'Training Progress' },
+      trainerTitle: { de: 'Aufgabe 1', en: 'Task 1' },
+      trainerLead: { de: 'Wähle zuerst, ob du Säuren oder Basen trainieren möchtest. Danach ordnest du jedes Teilchen als hart oder weich ein.', en: 'First, choose whether you want to practice acids or bases. Then, classify each particle as hard or soft.' },
+      btnAcid: { de: 'Säuren üben', en: 'Practice Acids' },
+      btnBase: { de: 'Basen üben', en: 'Practice Bases' },
+      btnReset: { de: 'Zurücksetzen', en: 'Reset' },
+      promptText: { de: 'Ist dieses Teilchen im HSAB-Konzept eher hart oder weich?', en: 'Is this particle considered hard or soft according to the HSAB concept?' },
+      ansHard: { de: 'Hart', en: 'Hard' },
+      ansSoft: { de: 'Weich', en: 'Soft' },
+      hintSummary1: { de: 'Molekül/Ion-spezifischer Tipp anzeigen', en: 'Show molecule/ion specific hint' },
+      nextBtn: { de: 'Nächste Karte', en: 'Next Card' },
+      shuffleBtn: { de: 'Neu mischen', en: 'Shuffle' },
+      aufgabe2Title: { de: 'Aufgabe 2', en: 'Task 2' },
+      aufgabe2Text: { de: 'Ordne die Moleküle/Ionen den entsprechenden Positionen von weich zu hart anhand des HSAB-Konzeptes zu.', en: 'Arrange the molecules/ions in the correct positions from soft to hard based on the HSAB concept.' },
+      loadAcidSort: { de: 'Säure-Sortierung', en: 'Acid Sorting' },
+      loadBaseSort: { de: 'Basen-Sortierung', en: 'Base Sorting' },
+      checkSort: { de: 'Reihenfolge prüfen', en: 'Check Order' },
+      resetSortBtn: { de: 'Zurücksetzen', en: 'Reset' },
+      restartSortBtn: { de: 'Aufgabe erneut', en: 'Restart Task' },
+      scaleWeich: { de: 'weich', en: 'soft' },
+      scaleHart: { de: 'hart', en: 'hard' },
+      hintSummary2: { de: 'Aufgaben-spezifischen Tipp anzeigen', en: 'Show task specific hint' },
+      aufgabe3Title: { de: 'Aufgabe 3', en: 'Task 3' },
+      aufgabe3Text: { de: 'Zu Beginn des Unterrichts hatten wir jeweils Kupfer und Neodym in Wasser gelöst. Begründe anhand des HSAB-Konzeptes, welches der beiden Metalle besser mit Wasser reagiert.', en: 'At the beginning of the lesson, we dissolved copper and neodymium in water. Explain based on the HSAB concept which of the two metals reacts better with water.' },
+      checkSolutionBtn: { de: 'Lösung überprüfen', en: 'Check Solution' },
+      pwdText: { de: 'Zeige der Lehrkraft deine Lösung. Diese gibt dir dann ein Passwort zur Musterlösung.', en: 'Show your solution to the teacher. They will then give you a password for the model solution.' },
+      submitPasswordBtn: { de: 'Bestätigen', en: 'Confirm' },
+      hintSummary3: { de: 'Tipp anzeigen', en: 'Show hint' },
+      task3HintContent: { de: 'Kupfer liegt im Wasser als Cu<sup>2+</sup> und Neodym als Nd<sup>3+</sup> vor.', en: 'Copper is present in water as Cu<sup>2+</sup> and neodymium as Nd<sup>3+</sup>.' },
+      merkhilfeBlock: {
+        de: `<h3>Allgemeine Informationen zum HSAB-Konzept</h3>
+          <p>
+            Mit dem Hard-Soft-Acid-Base-(HSAB)-Konzept lassen sich Ionen/Moleküle in die Kategorien weich und hart
+            unterteilen und somit Reaktionen vorhersagen. Denn es gilt: <strong style="color: var(--primary);">Weich
+              reagiert gerne mit weich und hart mit hart.</strong> Für weiche Ionen/Moleküle gilt jeweils der umgekehrte
+            Fall wie für harte Ionen/Moleküle.
+          </p>
+          <p style="margin-top: 1rem;"><strong>Ein Ion/Molekül gilt als umso härter, je...</strong></p>
+          <ul style="margin-top: 0.5rem; padding-left: 1.5rem; line-height: 1.8;">
+            <li style="margin-bottom: 0.75rem;"><strong>...kleiner der Atom/Ionen-Radius ist.</strong>
+              <details style="margin-top: 0.25rem; font-size: var(--text-sm); cursor: pointer;"><summary style="font-weight: 600; color: var(--primary-2);">Beispiel ansehen</summary><div style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">H<sup>+</sup> ist härter als Na<sup>+</sup>, obwohl beide hart sind, da H<sup>+</sup> einen deutlich kleineren Ionen-Radius besitzt.</div></details>
+            </li>
+            <li style="margin-bottom: 0.75rem;"><strong>...höher die Ladung ist.</strong> (Tendenziell kann man sagen, ab einer Ladung von +3 sind Ionen eher als hart anzusehen).
+              <details style="margin-top: 0.25rem; font-size: var(--text-sm); cursor: pointer;"><summary style="font-weight: 600; color: var(--primary-2);">Beispiel ansehen</summary><div style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">Fe<sup>3+</sup> ist härter als Fe<sup>2+</sup> aufgrund der höheren Ladung. Fe<sup>2+</sup> liegt sogar im Übergangsbereich zwischen hart und weich.</div></details>
+            </li>
+            <li style="margin-bottom: 0.75rem;"><strong>...höher die Ladungsdichte ist.</strong> (= Verhältnis von Ladung [möglichst groß] zu Radius [möglichst klein])
+              <details style="margin-top: 0.25rem; font-size: var(--text-sm); cursor: pointer;"><summary style="font-weight: 600; color: var(--primary-2);">Beispiel ansehen</summary><div style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">Mg<sup>2+</sup> besitzt kleinen Radius, da es sich es in der 2. Periode befindet, und ist geladen. Damit ist die Ladungsdichte hoch. Dementsprechend wäre Mg<sup>2+</sup> hart.<br><br> Cd<sup>2+</sup> hingegen befindet sich in der 4. Periode, also hat einen deutlich größeren Ionenradius. Da es dieselbe Ladung besitzt, ergibt sich somit eine geringe Ladungsdichte. Cd<sup>2+</sup> ist dementsprechend weich.</div></details>
+            </li>
+            <li style="margin-bottom: 0.75rem;"><strong>...höher die Oxidationsstufe ist.</strong>
+              <details style="margin-top: 0.25rem; font-size: var(--text-sm); cursor: pointer;"><summary style="font-weight: 600; color: var(--primary-2);">Beispiel ansehen</summary><div style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">In ClO<sub>4</sub><sup>-</sup> ist die Oxidationsstufe von Chlor VII, und somit höher als in ClO<sub>3</sub><sup>-</sup> mit V. Folglich ist ClO<sub>4</sub><sup>-</sup> härter als ClO<sub>3</sub><sup>-</sup>.</div></details>
+            </li>
+            <li style="margin-bottom: 0.75rem;"><strong>...höher die Elektronegativität ist.</strong>
+              <details style="margin-top: 0.25rem; font-size: var(--text-sm); cursor: pointer;"><summary style="font-weight: 600; color: var(--primary-2);">Beispiel ansehen</summary><div style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">BF<sub>3</sub> gilt als harte Säure, wohingegen BH<sub>3</sub> als weiche Säure gilt, was sich unter anderem auf die hohe Elektronegativität von Fluor (ΔEN(F)= 4,0) im Vergleich zum H (ΔEN(H)= 2,1) zurückführen lässt.</div></details>
+            </li>
+            <li style="margin-bottom: 0.75rem;"><strong>...schlechter die Polarisierbarkeit</strong> (= wie sehr reagiert ein Molekül/Ion auf äußere elektrische Einwirkungen. Unter anderem abhängig von der Elektronegativität und Molekülgeometrie).
+              <details style="margin-top: 0.25rem; font-size: var(--text-sm); cursor: pointer;"><summary style="font-weight: 600; color: var(--primary-2);">Beispiel ansehen</summary><div style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">F<sup>-</sup> (hart) ist schlechter polarisierbar als I<sup>-</sup> (weich). Denn die Elektronen der Valenzschale beim F<sup>-</sup> sind deutlich näher am Kern als bei I<sup>-</sup> und somit weniger beeinflussbar durch äußere Ladungseinflüsse (z.B. ein anderes Ion).<br><br> NH<sub>3</sub> gilt als harte Base, wohingegen PH<sub>3</sub> als weiche Base gilt. Beide sind prinzipiell polarisierbar. Aufgrund der hohen ΔEN(N)= 3,0 im Vergleich zu ΔEN(P)= 2,2, und der geringeren Größe von Stickstoff in Vergleich zu Phosphor, liegt der Ladungsschwerpunkt innerhalb der Moleküle deutlich mehr beim N als bei P. Das führt zu einer schlechteren Polarisierbarkeit von NH<sub>3</sub> im Vergleich zu PH<sub>3</sub>.</div></details>
+            </li>
+          </ul>`,
+        en: `<h3>General Information about the HSAB Concept</h3>
+          <p>
+            The Hard-Soft-Acid-Base (HSAB) concept allows classifying ions/molecules into soft and hard categories, thus predicting reactions. The rule is: <strong style="color: var(--primary);">Soft reacts preferentially with soft, and hard with hard.</strong> For soft ions/molecules, the opposite applies compared to hard ions/molecules.
+          </p>
+          <p style="margin-top: 1rem;"><strong>An ion/molecule is considered harder, the...</strong></p>
+          <ul style="margin-top: 0.5rem; padding-left: 1.5rem; line-height: 1.8;">
+            <li style="margin-bottom: 0.75rem;"><strong>...smaller its atomic/ionic radius is.</strong>
+              <details style="margin-top: 0.25rem; font-size: var(--text-sm); cursor: pointer;"><summary style="font-weight: 600; color: var(--primary-2);">View example</summary><div style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">H<sup>+</sup> is harder than Na<sup>+</sup>, although both are hard, because H<sup>+</sup> has a significantly smaller ionic radius.</div></details>
+            </li>
+            <li style="margin-bottom: 0.75rem;"><strong>...higher its charge is.</strong> (Generally speaking, ions with a charge of +3 or higher are considered hard).
+              <details style="margin-top: 0.25rem; font-size: var(--text-sm); cursor: pointer;"><summary style="font-weight: 600; color: var(--primary-2);">View example</summary><div style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">Fe<sup>3+</sup> is harder than Fe<sup>2+</sup> due to its higher charge. Fe<sup>2+</sup> is even in the borderline region between hard and soft.</div></details>
+            </li>
+            <li style="margin-bottom: 0.75rem;"><strong>...higher its charge density is.</strong> (= ratio of charge [as large as possible] to radius [as small as possible])
+              <details style="margin-top: 0.25rem; font-size: var(--text-sm); cursor: pointer;"><summary style="font-weight: 600; color: var(--primary-2);">View example</summary><div style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">Mg<sup>2+</sup> has a small radius, being in the 2nd period, and is charged. Thus its charge density is high. Accordingly, Mg<sup>2+</sup> would be hard.<br><br> Cd<sup>2+</sup>, on the other hand, is in the 4th period, so it has a much larger ionic radius. Since it has the same charge, this results in a low charge density. Cd<sup>2+</sup> is accordingly soft.</div></details>
+            </li>
+            <li style="margin-bottom: 0.75rem;"><strong>...higher its oxidation state is.</strong>
+              <details style="margin-top: 0.25rem; font-size: var(--text-sm); cursor: pointer;"><summary style="font-weight: 600; color: var(--primary-2);">View example</summary><div style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">In ClO<sub>4</sub><sup>-</sup>, the oxidation state of chlorine is VII, which is higher than in ClO<sub>3</sub><sup>-</sup> with V. Consequently, ClO<sub>4</sub><sup>-</sup> is harder than ClO<sub>3</sub><sup>-</sup>.</div></details>
+            </li>
+            <li style="margin-bottom: 0.75rem;"><strong>...higher its electronegativity is.</strong>
+              <details style="margin-top: 0.25rem; font-size: var(--text-sm); cursor: pointer;"><summary style="font-weight: 600; color: var(--primary-2);">View example</summary><div style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">BF<sub>3</sub> is considered a hard acid, whereas BH<sub>3</sub> is considered a soft acid, which is partly due to the high electronegativity of fluorine (ΔEN(F)= 4.0) compared to H (ΔEN(H)= 2.1).</div></details>
+            </li>
+            <li style="margin-bottom: 0.75rem;"><strong>...lower its polarizability</strong> (= how strongly a molecule/ion reacts to external electric influences. Depends on electronegativity and molecular geometry, among other things).
+              <details style="margin-top: 0.25rem; font-size: var(--text-sm); cursor: pointer;"><summary style="font-weight: 600; color: var(--primary-2);">View example</summary><div style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">F<sup>-</sup> (hard) is less polarizable than I<sup>-</sup> (soft). The valence electrons of F<sup>-</sup> are much closer to the nucleus than those of I<sup>-</sup> and are thus less affected by external charge influences (e.g., another ion).<br><br> NH<sub>3</sub> is considered a hard base, whereas PH<sub>3</sub> is considered a soft base. Both are polarizable in principle. Due to the high ΔEN(N)= 3.0 compared to ΔEN(P)= 2.2, and the smaller size of nitrogen compared to phosphorus, the center of charge is much closer to N than to P. This leads to lower polarizability for NH<sub>3</sub> compared to PH<sub>3</sub>.</div></details>
+            </li>
+          </ul>`
+      },
+      solutionBlock: {
+        de: `<strong style="display: block; font-size: var(--text-base); color: var(--ok); margin-bottom: 0.5rem;">Musterlösung:</strong>
+          <p style="margin: 0; color: var(--text); line-height: 1.6; font-size: var(--text-sm);">
+            Wasser ist aufgrund der hohen Elektronegativitätsdifferenz und hohen Ladungsdichte am Sauerstoff schlecht polarisierbar. Dementsprechend handelt es sich bei Wasser um eine harte Base.<br><br>
+            Da nach dem HSAB-Konzept hart mit hart gut reagiert, wird das härtere Metallion besser mit Wasser als Säure reagieren, indem es einen Komplex ausbildet. Da Neodym als Nd<sup>3+</sup> vorliegt besitzt es eine höhere Ladung im Vergleich zum Cu<sup>2+</sup>. Zusätzlich besitzt das Nd<sup>3+</sup> kernnahe Elektronen, was zu einer erhöhten Ladungsdichte führt, obwohl der Ionenradius von Cu<sup>2+</sup> (4. Periode) kleiner ist als von Nd<sup>3+</sup> (6. Periode).<br><br>
+            Folglich ist Nd<sup>3+</sup> härter als Cu<sup>2+</sup> und reagiert besser mit Wasser.
+          </p>`,
+        en: `<strong style="display: block; font-size: var(--text-base); color: var(--ok); margin-bottom: 0.5rem;">Model Solution:</strong>
+          <p style="margin: 0; color: var(--text); line-height: 1.6; font-size: var(--text-sm);">
+            Water is poorly polarizable due to the high electronegativity difference and high charge density on the oxygen. Accordingly, water is a hard base.<br><br>
+            Since hard reacts well with hard according to the HSAB concept, the harder metal ion will react better with water as an acid by forming a complex. Since neodymium is present as Nd<sup>3+</sup>, it has a higher charge compared to Cu<sup>2+</sup>. In addition, Nd<sup>3+</sup> has electrons close to the nucleus, which leads to an increased charge density, although the ionic radius of Cu<sup>2+</sup> (4th period) is smaller than that of Nd<sup>3+</sup> (6th period).<br><br>
+            Consequently, Nd<sup>3+</sup> is harder than Cu<sup>2+</sup> and reacts better with water.
+          </p>`
+      }
+    };
+
+    const noteTranslations = {
+      'Kleiner Ionenradius, hohe Ladungsdichte, schlechte Polarisierbarkeit': 'Small ionic radius, high charge density, low polarizability',
+      'Hohe Ladungsdichte, große Oxidationszahl, schlechte Polarisierbarkeit': 'High charge density, large oxidation state, low polarizability',
+      'Hohe Ladungsdichte, große Oxidationszahl': 'High charge density, large oxidation state',
+      'Großer Ionenradius, niedrige Ladungsdichte, geringe Oxidationszahl': 'Large ionic radius, low charge density, low oxidation state',
+      'Großer Ionenradius, niedrige Ladungsdichte': 'Large ionic radius, low charge density',
+      'Hohe Ladungsdichte vor allem durch kernnahe Elektronen (f-Orbitalelektronen), große Oxidationszahl': 'High charge density primarily due to electrons close to the nucleus (f-orbital electrons), large oxidation state',
+      'Hohe Ladungsdichte vor allem durch kernnahe Elektronen (f-Orbitalelektronen)': 'High charge density primarily due to electrons close to the nucleus (f-orbital electrons)',
+      'Niedrige Ladungsdichte': 'Low charge density',
+      'Kleiner Ionenradius, hohe Elektronegativität, hohe Ladungsdichte': 'Small ionic radius, high electronegativity, high charge density',
+      'Hohe Oxidationszahl von Schwefel': 'High oxidation state of sulfur',
+      'Niedrige Oxidationszahl von Schwefel': 'Low oxidation state of sulfur',
+      'Hohe Oxidationszahl von Kohlenstoff': 'High oxidation state of carbon',
+      'Niedrige Oxidationszahl von Kohlenstoff': 'Low oxidation state of carbon',
+      'Schlechte Polarisierbarkeit (ΔEN(O)= 3,5)': 'Low polarizability (ΔEN(O)= 3.5)',
+      'Mittlere Polarisierbarkeit (ΔEN(S)= 2,5), niedrige Ladungsdichte aufgrund der Größe von S': 'Medium polarizability (ΔEN(S)= 2.5), low charge density due to the size of S',
+      'Niedrige Ladungsdichte des Benzols, aufgrund des delokalisierten Elektronensystems': 'Low charge density of benzene, due to the delocalized electron system'
+    };
+
+    const hintTranslations = {
+      'Beachte die Ionenradien.': 'Note the ionic radii.',
+      'Beachte die Ladung.': 'Note the charge.',
+      'Beachte die Ladungsdichte. Bedenke bei Lanthan die kernnahen Elektronen.': 'Note the charge density. Consider the inner electrons for lanthanum.',
+      'Beachte die Oxidationszahlen und Ladung.': 'Note the oxidation states and charge.',
+      'Beachte die Ionenradien und Ladung.': 'Note the ionic radii and charge.',
+      'Beachte die Ladungsdichte.': 'Note the charge density.',
+      'Beachte die Oxidationszahlen.': 'Note the oxidation states.',
+      'Beachte die Polarität.': 'Note the polarity.',
+      'Beachte Ladung und Polarität.': 'Note the charge and polarity.'
+    };
+
+    // Store original texts on datasets
+    datasets.acids.forEach(item => { item.noteDe = item.note; item.noteEn = noteTranslations[item.note] || item.note; });
+    datasets.bases.forEach(item => { item.noteDe = item.note; item.noteEn = noteTranslations[item.note] || item.note; });
+    sortSetsNew.acids.forEach(set => { set.hintDe = set.hint; set.hintEn = hintTranslations[set.hint] || set.hint; });
+    sortSetsNew.bases.forEach(set => { set.hintDe = set.hint; set.hintEn = hintTranslations[set.hint] || set.hint; });
+
+    function setElementText(selector, dictKey, isHtml = false) {
+      const el = document.querySelector(selector);
+      if (el) {
+        if (isHtml) el.innerHTML = dict[dictKey][currentLang];
+        else el.textContent = dict[dictKey][currentLang];
+      }
+    }
+
+    function updateLanguage() {
+      htmlEl.setAttribute('lang', currentLang);
+
+      if (currentLang === 'de') {
+        langDe.style.fontWeight = 'bold';
+        langDe.style.color = 'var(--primary)';
+        langEn.style.fontWeight = 'normal';
+        langEn.style.color = 'var(--muted)';
+      } else {
+        langEn.style.fontWeight = 'bold';
+        langEn.style.color = 'var(--primary)';
+        langDe.style.fontWeight = 'normal';
+        langDe.style.color = 'var(--muted)';
+      }
+
+      setElementText('#brandTitle', 'brandTitle');
+      setElementText('a.skip-link', 'skipLink');
+      setElementText('.hero-copy h1', 'heroH1');
+      setElementText('.hero-copy p.lead', 'heroLead');
+      setElementText('#startBtn', 'startBtn');
+      setElementText('#merkhilfeBlock', 'merkhilfeBlock', true);
+
+      const legendDiv = document.querySelector('.legend');
+      if (legendDiv && legendDiv.children.length >= 2) {
+        legendDiv.children[0].innerHTML = dict.legendHart[currentLang];
+        legendDiv.children[1].innerHTML = dict.legendWeich[currentLang];
+      }
+
+      setElementText('#helpTitle', 'helpTitle');
+      setElementText('#statsAcidBtn', 'statsAcidBtn');
+      setElementText('#statsBaseBtn', 'statsBaseBtn');
+
+      const helpLead = document.getElementById('helpLeadText');
+      if (statsMode === 'acids') {
+        helpLead.textContent = currentLang === 'en' ? 'These statistics and help apply to acid exercises.' : 'Diese Statistik und Hilfe gilt für Säureaufgaben.';
+      } else {
+        helpLead.textContent = currentLang === 'en' ? 'These statistics and help apply to base exercises.' : 'Diese Statistik und Hilfe gilt für Basenaufgaben.';
+      }
+
+      const scoreBoxes = document.querySelectorAll('.score-box .brand-sub');
+      if (scoreBoxes.length >= 4) {
+        scoreBoxes[0].textContent = dict.lblRichtig[currentLang];
+        scoreBoxes[1].textContent = dict.lblFalsch[currentLang];
+        scoreBoxes[2].textContent = dict.lblQuote[currentLang];
+        scoreBoxes[3].textContent = dict.lblSerie[currentLang];
+      }
+      const fort = document.querySelector('.help-card strong');
+      if (fort) fort.textContent = dict.lblFortschritt[currentLang];
+
+      setElementText('#trainerTitle', 'trainerTitle');
+      setElementText('#trainerTitle + p.lead', 'trainerLead');
+
+      document.querySelector('[data-mode="acids"]').textContent = dict.btnAcid[currentLang];
+      document.querySelector('[data-mode="bases"]').textContent = dict.btnBase[currentLang];
+      setElementText('#resetBtn', 'btnReset');
+      setElementText('#promptText', 'promptText');
+
+      document.querySelector('[data-answer="hard"] strong').textContent = dict.ansHard[currentLang];
+      document.querySelector('[data-answer="soft"] strong').textContent = dict.ansSoft[currentLang];
+
+      setElementText('#specificHint summary', 'hintSummary1');
+      setElementText('#nextBtn', 'nextBtn');
+      setElementText('#shuffleBtn', 'shuffleBtn');
+
+      setElementText('.footnote h2', 'aufgabe2Title');
+      setElementText('#aufgabe2Text', 'aufgabe2Text');
+      setElementText('#loadAcidSort', 'loadAcidSort');
+      setElementText('#loadBaseSort', 'loadBaseSort');
+      setElementText('#checkSort', 'checkSort');
+      setElementText('#resetSortBtn', 'resetSortBtn');
+      setElementText('#restartSortBtn', 'restartSortBtn');
+      setElementText('#sortHint summary', 'hintSummary2');
+
+      const scales = document.querySelectorAll('.scale-label');
+      if (scales.length >= 2) {
+        scales[0].textContent = dict.scaleWeich[currentLang];
+        scales[1].textContent = dict.scaleHart[currentLang];
+      }
+
+      setElementText('#aufgabe3Section h2', 'aufgabe3Title');
+      setElementText('#aufgabe3Text', 'aufgabe3Text');
+      setElementText('#checkSolutionBtn', 'checkSolutionBtn');
+      setElementText('#passwordBlock p', 'pwdText');
+      setElementText('#submitPasswordBtn', 'submitPasswordBtn');
+      setElementText('#task3Hint summary', 'hintSummary3');
+      setElementText('#task3HintContent', 'task3HintContent', true);
+      setElementText('#task3SolutionBlock', 'solutionBlock', true);
+
+      document.getElementById('task3Password').placeholder = currentLang === 'en' ? 'Enter password' : 'Passwort eingeben';
+      document.getElementById('task3Textarea').placeholder = currentLang === 'en' ? 'Write your reasoning here...' : 'Schreibe deine Begründung hier...';
+      const len = task3Textarea.value.length;
+      document.getElementById('task3CharCount').textContent = `${len} / 1000 ${currentLang === 'en' ? 'Characters' : 'Zeichen'}`;
+
+      // Update active language in datasets
+      datasets.acids.forEach(item => { item.note = currentLang === 'en' ? item.noteEn : item.noteDe; });
+      datasets.bases.forEach(item => { item.note = currentLang === 'en' ? item.noteEn : item.noteDe; });
+      sortSetsNew.acids.forEach(set => { set.hint = currentLang === 'en' ? set.hintEn : set.hintDe; });
+      sortSetsNew.bases.forEach(set => { set.hint = currentLang === 'en' ? set.hintEn : set.hintDe; });
+
+      renderCard();
+      renderSort(currentSortMode);
+    }
+
+    langToggle.addEventListener('click', () => {
+      currentLang = currentLang === 'de' ? 'en' : 'de';
+      updateLanguage();
+    });
+
+    // Patch existing functions for translations
+    const origRenderCard = renderCard;
+    renderCard = function () {
+      origRenderCard();
+      const t = tracking[currentMode];
+      if (t.order.length === 0) {
+        counterEl.textContent = currentLang === 'en' ? 'Done!' : 'Geschafft!';
+        feedbackBox.textContent = currentLang === 'en' ? 'All cards mastered! You can shuffle to practice again.' : 'Alle Karten gemeistert! Du kannst neu mischen, um nochmal zu üben.';
+      } else {
+        counterEl.textContent = currentLang === 'en' ? `Card ${t.index + 1} of ${t.order.length}` : `Karte ${t.index + 1} von ${t.order.length}`;
+        if (!t.answered) {
+          feedbackBox.innerHTML = currentLang === 'en' ? 'Choose an answer, then brief feedback will appear immediately.' : 'Wähle eine Antwort, dann erscheint direkt eine kurze Rückmeldung.';
+        } else {
+          if (t.correctLast) {
+            feedbackBox.innerHTML = currentLang === 'en' ? 'Correct!' : 'Richtig!';
+          } else {
+            feedbackBox.innerHTML = currentLang === 'en' ? `Unfortunately wrong. Compare the info from the hint with the <a href="javascript:void(0)" onclick="document.getElementById('merkhilfeBlock').scrollIntoView({ behavior: 'smooth' })" style="color: inherit; text-decoration: underline; font-weight: 600;">General Information about the HSAB concept</a>.` : `Leider falsch. Vergleiche noch einmal Infos aus dem Tipp mit den <a href="javascript:void(0)" onclick="document.getElementById('merkhilfeBlock').scrollIntoView({ behavior: 'smooth' })" style="color: inherit; text-decoration: underline; font-weight: 600;">Allgemeinen Informationen zum HSAB-Konzept</a>.`;
+          }
+        }
+      }
+      modeBadge.textContent = currentLang === 'en' ? 'Mode: ' + (currentMode === 'acids' ? 'Acids' : 'Bases') : 'Modus: ' + (currentMode === 'acids' ? 'Säuren' : 'Basen');
+    };
+
+    const origRenderSort = renderSort;
+    renderSort = function (mode) {
+      origRenderSort(mode);
+      const taskIndex = sortTaskIndices[mode];
+      const taskData = sortSetsNew[mode][taskIndex];
+      document.getElementById('sortCounter').textContent = (currentLang === 'en' ? 'Subtask ' : 'Teilaufgabe ') + taskData.id + ')';
+
+      [...sortArea.children].forEach((el, idx) => {
+        const badge = el.querySelector('.sort-rank');
+        if (badge) badge.textContent = 'Position ' + (idx + 1);
+      });
+
+      if (sortFeedback.textContent) {
+        checkSort();
+      }
+    };
+
+    const origCheckSort = checkSort;
+    checkSort = function () {
+      origCheckSort();
+      if (sortFeedback.textContent) {
+        const ok = [...sortArea.children].every((el, idx) => Number(el.dataset.rank) === idx + 1);
+        sortFeedback.textContent = ok
+          ? (currentLang === 'en' ? 'All correct!' : 'Alles richtig!')
+          : (currentLang === 'en' ? 'Not quite yet, think again about which criteria could help you best here.' : 'Noch nicht ganz, überlege dir nochmal, welche Kriterien dir hier am besten weiterhelfen könnten.');
+      }
+    };
+
+    const origVerifyPassword = verifyPassword;
+    verifyPassword = async function () {
+      await origVerifyPassword();
+      if (passwordError.style.display === 'block') {
+        passwordError.textContent = currentLang === 'en' ? 'Incorrect password! Please ask your teacher.' : 'Falsches Passwort! Bitte frage deine Lehrkraft.';
+      }
+    };
+
+    const origClearIncorrectColors = clearIncorrectColors;
+    clearIncorrectColors = function () {
+      [...sortArea.children].forEach(el => el.classList.remove('incorrect'));
+      if (sortFeedback.textContent.includes('überlege dir nochmal') || sortFeedback.textContent.includes('think again')) {
+        sortFeedback.textContent = '';
+      }
+    };
+
+    document.getElementById('checkSort').removeEventListener('click', origCheckSort);
+    document.getElementById('checkSort').addEventListener('click', checkSort);
+
+    submitPasswordBtn.removeEventListener('click', origVerifyPassword);
+    submitPasswordBtn.addEventListener('click', verifyPassword);
+
+    document.getElementById('statsAcidBtn').addEventListener('click', () => {
+      document.getElementById('helpLeadText').textContent = currentLang === 'en' ? 'These statistics and help apply to acid exercises.' : 'Diese Statistik und Hilfe gilt für Säureaufgaben.';
+    });
+
+    document.getElementById('statsBaseBtn').addEventListener('click', () => {
+      document.getElementById('helpLeadText').textContent = currentLang === 'en' ? 'These statistics and help apply to base exercises.' : 'Diese Statistik und Hilfe gilt für Basenaufgaben.';
+    });
+
     renderCard();
     renderSort('acids');
+
   </script>
 </body>
 
