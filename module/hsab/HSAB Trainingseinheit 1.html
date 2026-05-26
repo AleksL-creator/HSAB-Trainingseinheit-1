@@ -225,7 +225,7 @@
     .lead {
       margin-top: 1rem;
       color: var(--muted);
-      max-width: 60ch;
+      max-width: 100%;
     }
 
     .hero-actions,
@@ -344,7 +344,7 @@
     }
 
     .prompt {
-      color: var(--muted);
+      color: var(--text);
       margin-top: .35rem;
     }
 
@@ -707,10 +707,13 @@
         <div class="mini" id="merkhilfeBlock" style="margin-top:1.25rem;">
           <h3>Allgemeine Informationen zum HSAB-Konzept</h3>
           <p>
-            Mit dem Hard-Soft-Acid-Base-(HSAB)-Konzept lassen sich Ionen/Moleküle in die Kategorien weich und hart
-            unterteilen und somit Reaktionen vorhersagen. Denn es gilt: <strong style="color: var(--primary);">Weich
-              reagiert gerne mit weich und hart mit hart.</strong> Für weiche Ionen/Moleküle gilt jeweils der umgekehrte
-            Fall wie für harte Ionen/Moleküle.
+            <span style="color: var(--text);">Mit dem Hard-Soft-Acid-Base-(HSAB)-Konzept lassen sich Ionen/Moleküle in
+              die Kategorien weich und hart
+              unterteilen und somit Reaktionen vorhersagen. Denn es gilt:</span> <strong
+              style="color: rgba(239, 0, 0, 1);">Weich
+              reagiert gerne mit weich und hart mit hart.</strong> <span style="color: var(--text);">Für weiche
+              Ionen/Moleküle gilt jeweils der umgekehrte
+              Fall wie für harte Ionen/Moleküle.</span>
           </p>
           <p style="margin-top: 1rem;"><strong>Ein Ion/Molekül gilt als umso härter, je...</strong></p>
           <ul style="margin-top: 0.5rem; padding-left: 1.5rem; line-height: 1.8;">
@@ -796,12 +799,6 @@
             </li>
           </ul>
         </div>
-        <div class="legend" aria-label="Farblegende" style="margin-top:1rem;">
-          <span style="background: rgba(177,49,49,.12); color: var(--hard);"><span class="dot"
-              style="background: var(--hard);"></span>hart</span>
-          <span style="background: rgba(35,85,165,.12); color: var(--soft);"><span class="dot"
-              style="background: var(--soft);"></span>weich</span>
-        </div>
       </div>
     </section>
 
@@ -811,7 +808,8 @@
           <h2 id="trainerTitle">Aufgabe 1</h2>
           <p class="lead" style="margin-top:.5rem; color: var(--text);">Wähle zuerst, ob du Säuren oder Basen trainieren
             möchtest. Danach
-            ordnest du jedes Teilchen als hart oder weich ein.</p>
+            <strong>ordne</strong> jedes Teilchen als hart oder weich <strong>ein</strong>.
+          </p>
 
           <div class="controls" style="margin-top:1rem;">
             <button class="btn btn-primary" type="button" data-mode="acids">Säuren üben</button>
@@ -852,7 +850,8 @@
 
           <!-- Bottom: Feedback, Actions & Lernhilfe -->
           <div style="margin-top: 1.5rem;">
-            <div class="feedback" id="feedbackBox" style="margin-top: 0;">Wähle mittels einem Klick hart oder weich aus,
+            <div class="feedback" id="feedbackBox" style="margin-top: 0; color: var(--text);">Wähle mittels einem Klick
+              hart oder weich aus,
               dann erscheint direkt eine kurze Rückmeldung.</div>
 
             <div
@@ -901,9 +900,10 @@
 
       <section class="panel footnote">
         <h2 style="margin-bottom: .75rem; color: var(--text);">Aufgabe 2</h2>
-        <p id="aufgabe2Text" style="margin:0 0 1rem 0; color: var(--text);">Ordne die Moleküle/Ionen den entsprechenden
+        <p id="aufgabe2Text" style="margin:0 0 1rem 0; color: var(--text);"><strong>Ordne</strong> die Moleküle/Ionen
+          den entsprechenden
           Positionen von weich
-          zu hart anhand des HSAB-Konzeptes zu.</p>
+          zu hart anhand des HSAB-Konzeptes <strong>zu</strong>.</p>
         <div class="controls" style="margin-bottom:1rem; flex-wrap: wrap; gap: 0.5rem;">
           <button class="btn btn-primary" type="button" id="loadAcidSort">Säure-Sortierung</button>
           <button class="btn btn-secondary" type="button" id="loadBaseSort">Basen-Sortierung</button>
@@ -938,7 +938,8 @@
       <section class="panel trainer" style="margin-top: 1.5rem;" id="aufgabe3Section">
         <h2 style="margin-bottom: .75rem; color: var(--text);">Aufgabe 3</h2>
         <p id="aufgabe3Text" style="margin:0 0 1.25rem 0; color: var(--text);">
-          Zu Beginn des Unterrichts hatten wir jeweils Kupfer und Neodym in Wasser gelöst. Begründe anhand des
+          Zu Beginn des Unterrichts hatten wir jeweils Kupfer und Neodym in Wasser gelöst. <strong>Begründe</strong>
+          anhand des
           HSAB-Konzeptes, welches der beiden Metalle besser mit Wasser reagiert.
         </p>
 
@@ -1660,7 +1661,7 @@
       lblSerie: { de: 'Serie', en: 'Streak' },
       lblFortschritt: { de: 'Fortschritt', en: 'Progress' },
       trainerTitle: { de: 'Aufgabe 1', en: 'Task 1' },
-      trainerLead: { de: 'Wähle zuerst, ob du Säuren oder Basen trainieren möchtest. Danach ordnest du jedes Teilchen als hart oder weich ein.', en: 'First, choose whether you want to practice acids or bases. Then, classify each particle as hard or soft.' },
+      trainerLead: { de: 'Wähle zuerst, ob du Säuren oder Basen trainieren möchtest. Danach <strong>ordne</strong> jedes Teilchen als hart oder weich <strong>ein</strong>.', en: 'First, choose whether you want to practice acids or bases. Then, <strong>classify</strong> each particle as hard or soft.' },
       btnAcid: { de: 'Säuren üben', en: 'Practice Acids' },
       btnBase: { de: 'Basen üben', en: 'Practice Bases' },
       btnReset: { de: 'Zurücksetzen', en: 'Reset' },
@@ -1671,7 +1672,7 @@
       nextBtn: { de: 'Nächste Karte', en: 'Next Card' },
       shuffleBtn: { de: 'Neu mischen', en: 'Shuffle' },
       aufgabe2Title: { de: 'Aufgabe 2', en: 'Task 2' },
-      aufgabe2Text: { de: 'Ordne die Moleküle/Ionen den entsprechenden Positionen von weich zu hart anhand des HSAB-Konzeptes zu.', en: 'Arrange the molecules/ions in the correct positions from soft to hard based on the HSAB concept.' },
+      aufgabe2Text: { de: '<strong>Ordne</strong> die Moleküle/Ionen den entsprechenden Positionen von weich zu hart anhand des HSAB-Konzeptes <strong>zu</strong>.', en: '<strong>Arrange</strong> the molecules/ions in the correct positions from soft to hard based on the HSAB concept.' },
       loadAcidSort: { de: 'Säure-Sortierung', en: 'Acid Sorting' },
       loadBaseSort: { de: 'Basen-Sortierung', en: 'Base Sorting' },
       checkSort: { de: 'Reihenfolge prüfen', en: 'Check Order' },
@@ -1681,7 +1682,7 @@
       scaleHart: { de: 'hart', en: 'hard' },
       hintSummary2: { de: 'Aufgaben-spezifischen Tipp anzeigen', en: 'Show task specific hint' },
       aufgabe3Title: { de: 'Aufgabe 3', en: 'Task 3' },
-      aufgabe3Text: { de: 'Zu Beginn des Unterrichts hatten wir jeweils Kupfer und Neodym in Wasser gelöst. Begründe anhand des HSAB-Konzeptes, welches der beiden Metalle besser mit Wasser reagiert.', en: 'At the beginning of the lesson, we dissolved copper and neodymium in water. Explain based on the HSAB concept which of the two metals reacts better with water.' },
+      aufgabe3Text: { de: 'Zu Beginn des Unterrichts hatten wir jeweils Kupfer und Neodym in Wasser gelöst. <strong>Begründe</strong> anhand des HSAB-Konzeptes, welches der beiden Metalle besser mit Wasser reagiert.', en: 'At the beginning of the lesson, we dissolved copper and neodymium in water. <strong>Explain</strong> based on the HSAB concept which of the two metals reacts better with water.' },
       checkSolutionBtn: { de: 'Lösung überprüfen', en: 'Check Solution' },
       pwdText: { de: 'Zeige der Lehrkraft deine Lösung. Diese gibt dir dann ein Passwort zur Musterlösung.', en: 'Show your solution to the teacher. They will then give you a password for the model solution.' },
       submitPasswordBtn: { de: 'Bestätigen', en: 'Confirm' },
@@ -1690,10 +1691,10 @@
       merkhilfeBlock: {
         de: `<h3>Allgemeine Informationen zum HSAB-Konzept</h3>
           <p>
-            Mit dem Hard-Soft-Acid-Base-(HSAB)-Konzept lassen sich Ionen/Moleküle in die Kategorien weich und hart
-            unterteilen und somit Reaktionen vorhersagen. Denn es gilt: <strong style="color: var(--primary);">Weich
-              reagiert gerne mit weich und hart mit hart.</strong> Für weiche Ionen/Moleküle gilt jeweils der umgekehrte
-            Fall wie für harte Ionen/Moleküle.
+            <span style="color: var(--text);">Mit dem Hard-Soft-Acid-Base-(HSAB)-Konzept lassen sich Ionen/Moleküle in die Kategorien weich und hart
+            unterteilen und somit Reaktionen vorhersagen. Denn es gilt:</span> <strong style="color: rgba(239, 0, 0, 1);">Weich
+              reagiert gerne mit weich und hart mit hart.</strong> <span style="color: var(--text);">Für weiche Ionen/Moleküle gilt jeweils der umgekehrte
+            Fall wie für harte Ionen/Moleküle.</span>
           </p>
           <p style="margin-top: 1rem;"><strong>Ein Ion/Molekül gilt als umso härter, je...</strong></p>
           <ul style="margin-top: 0.5rem; padding-left: 1.5rem; line-height: 1.8;">
@@ -1718,9 +1719,9 @@
           </ul>`,
         en: `<h3>General Information about the HSAB Concept</h3>
           <p>
-            The Hard-Soft-Acid-Base (HSAB) concept allows classifying ions/molecules into soft and hard categories, thus predicting reactions. The rule is: <strong style="color: var(--primary);">Soft reacts preferentially with soft, and hard with hard.</strong> For soft ions/molecules, the opposite applies compared to hard ions/molecules.
+            <span style="color: var(--text);">The Hard-Soft-Acid-Base (HSAB) concept allows classifying ions/molecules into soft and hard categories, thus predicting reactions. The rule is:</span> <strong style="color: rgba(239, 0, 0, 1);">Soft reacts preferentially with soft, and hard with hard.</strong> <span style="color: var(--text);">For soft ions/molecules, the opposite applies compared to hard ions/molecules.</span>
           </p>
-          <p style="margin-top: 1rem;"><strong>An ion/molecule is considered harder, the...</strong></p>
+          <p style="margin-top: 1rem; color: var(--text);"><strong>An ion/molecule is considered harder, the...</strong></p>
           <ul style="margin-top: 0.5rem; padding-left: 1.5rem; line-height: 1.8;">
             <li style="margin-bottom: 0.75rem;"><strong>...smaller its atomic/ionic radius is.</strong>
               <details style="margin-top: 0.25rem; font-size: var(--text-sm); cursor: pointer;"><summary style="font-weight: 600; color: var(--primary-2);">View example</summary><div style="padding: 0.75rem; background: var(--surface-2); border-left: 3px solid var(--primary-2); border-radius: 6px; margin-top: 0.35rem; color: var(--text);">H<sup>+</sup> is harder than Na<sup>+</sup>, although both are hard, because H<sup>+</sup> has a significantly smaller ionic radius.</div></details>
@@ -1843,7 +1844,7 @@
       setElementText('#progressLabel', 'lblFortschritt');
 
       setElementText('#trainerTitle', 'trainerTitle');
-      setElementText('#trainerTitle + p.lead', 'trainerLead');
+      setElementText('#trainerTitle + p.lead', 'trainerLead', true);
 
       document.querySelector('[data-mode="acids"]').textContent = dict.btnAcid[currentLang];
       document.querySelector('[data-mode="bases"]').textContent = dict.btnBase[currentLang];
@@ -1858,7 +1859,7 @@
       setElementText('#shuffleBtn', 'shuffleBtn');
 
       setElementText('.footnote h2', 'aufgabe2Title');
-      setElementText('#aufgabe2Text', 'aufgabe2Text');
+      setElementText('#aufgabe2Text', 'aufgabe2Text', true);
       setElementText('#loadAcidSort', 'loadAcidSort');
       setElementText('#loadBaseSort', 'loadBaseSort');
       setElementText('#checkSort', 'checkSort');
@@ -1873,7 +1874,7 @@
       }
 
       setElementText('#aufgabe3Section h2', 'aufgabe3Title');
-      setElementText('#aufgabe3Text', 'aufgabe3Text');
+      setElementText('#aufgabe3Text', 'aufgabe3Text', true);
       setElementText('#checkSolutionBtn', 'checkSolutionBtn');
       setElementText('#passwordBlock p', 'pwdText');
       setElementText('#submitPasswordBtn', 'submitPasswordBtn');
