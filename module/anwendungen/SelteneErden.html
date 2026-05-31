@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seltene Erden - Anwendungen</title>
+    <style>
+        :root,
+        [data-theme="light"] {
+            --bg: #f7f4ef;
+            --surface: rgba(255, 255, 255, 0.84);
+            --surface-2: #fffdf9;
+            --border: #d9d2c8;
+            --text: #241f17;
+            --muted: #6f685f;
+            --primary: #8f3d1f;
+            --primary-2: #285f75;
+            --shadow: 0 14px 40px rgba(36, 31, 23, .08);
+            --r-sm: 14px;
+            --r-md: 22px;
+            --r-lg: 30px;
+            --text-xs: clamp(.75rem, .72rem+.2vw, .875rem);
+            --text-sm: clamp(.9rem, .84rem+.25vw, 1rem);
+            --text-base: clamp(1rem, .95rem+.25vw, 1.12rem);
+            --text-lg: clamp(1.15rem, 1rem+.6vw, 1.45rem);
+            --text-xl: clamp(1.6rem, 1.2rem+1.4vw, 2.4rem);
+            --text-2xl: clamp(2.2rem, 1.2rem+3vw, 4rem);
+            --font-display: Inter, Arial, sans-serif;
+            --font-body: Inter, Arial, sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --bg: #161311;
+            --surface: rgba(30, 26, 23, 0.9);
+            --surface-2: #201c19;
+            --border: #3d332c;
+            --text: #f1e7dc;
+            --muted: #b7a99b;
+            --primary: #e49372;
+            --primary-2: #7bc0dd;
+            --shadow: 0 18px 45px rgba(0, 0, 0, .35);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: var(--font-body);
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(143, 61, 31, .14), transparent 28%),
+                radial-gradient(circle at right bottom, rgba(40, 95, 117, .14), transparent 24%),
+                var(--bg);
+            line-height: 1.6;
+        }
+
+        .wrap {
+            width: min(1200px, calc(100% - 2rem));
+            margin: 0 auto;
+            padding: 1rem 0 3rem;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0 1.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: .9rem;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary-2));
+            color: white;
+            box-shadow: var(--shadow);
+            font-weight: bold;
+        }
+
+        .brand-title {
+            font-weight: 700;
+            font-size: var(--text-lg);
+        }
+
+        .brand-sub {
+            font-size: var(--text-xs);
+            color: var(--muted);
+        }
+
+        .theme-toggle {
+            min-width: 44px;
+            min-height: 44px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 1.15rem;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+            font-family: var(--font-display);
+            line-height: 1.08;
+        }
+
+        h1 {
+            font-size: var(--text-2xl);
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: var(--text-xl);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .lead {
+            color: var(--text);
+            max-width: 80ch;
+            font-size: var(--text-base);
+        }
+
+        .panel {
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(80, 70, 60, .14);
+            border-radius: var(--r-lg);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+        }
+
+        /* Details & Summary Accordion */
+        details {
+            background: var(--surface-2);
+            border: 1px solid rgba(80, 70, 60, .12);
+            border-radius: var(--r-md);
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        summary {
+            font-family: var(--font-display);
+            font-size: var(--text-lg);
+            font-weight: bold;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text);
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            line-height: 1;
+            transition: transform 0.3s ease;
+        }
+
+        details[open] summary::after {
+            content: '−';
+        }
+
+        .details-content {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(80, 70, 60, .12);
+            color: var(--text);
+        }
+
+        .details-content p {
+            margin-bottom: 1rem;
+        }
+
+        .details-content p:first-child {
+            margin-top: 0;
+        }
+
+        sup {
+            font-size: 0.75em;
+            line-height: 0;
+            vertical-align: baseline;
+            position: relative;
+            top: -0.5em;
+        }
+
+        .media-container img {
+            max-width: 400px;
+            width: 100%;
+            border-radius: var(--r-sm);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .media-container iframe {
+            max-width: 100%;
+            border-radius: var(--r-sm);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .media-caption {
+            margin-top: 0.75rem;
+            font-size: var(--text-sm);
+            color: #000;
+            max-width: 80ch;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <header class="topbar">
+            <div class="brand">
+                <a href="../../index.html"
+                    style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: .9rem;">
+                    <div class="logo">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="brand-title">Seltene Erden</div>
+                        <div class="brand-sub">Anwendungen & Bedeutung</div>
+                    </div>
+                </a>
+            </div>
+            <button class="theme-toggle" aria-label="Theme umschalten">◐</button>
+        </header>
+
+        <main>
+            <div class="panel" style="margin-bottom: 2rem;">
+                <p class="lead" style="margin-bottom: 1rem;">Ziel des Moduls ist es, dass du am Ende nennen kannst, was
+                    Seltene Erden beziehungsweise Lanthanoide sind, und darstellen kannst, in welchen Bereichen sie eine
+                    Rolle spielen. Unter den Seltenen Erden werden die Reihe der Lanthanoide (Lanthan bis Lutetium)
+                    sowie die Elemente Scandium und Yttrium verstanden, da diese ähnliche Eigenschaften aufweisen (Abb.
+                    1). Besonders die Lanthanoide sind aufgrund ihrer Eigenschaften von hoher gesellschaftlicher
+                    Relevanz.</p>
+                <div class="media-container">
+                    <iframe
+                        src="../../Medien/3) Lanthanoid-Bedeutung-Unterrichtseinheit/Vorlage PSE für Antigravity.pdf"
+                        width="100%" height="500px"></iframe>
+                    <div class="media-caption"><b>Abb. 1: Das Periodensystem mit den Seltenen Erden hervorgehoben.</b>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alltagsanwendungen -->
+            <details>
+                <summary>Alltagsanwendungen</summary>
+                <div class="details-content">
+                    <p>Seltene Erden begegnen uns tagtäglich in verschiedensten Formen, sei es zum Beispiel als
+                        Legierung, als Färbemittel, zur Dotierung, als Katalysator oder als Komplex <sup>[1]</sup> (vgl.
+                        Abb. 2).
+                    </p>
+                    <p>Mit deinem Smartphone hattest du schon direkt mehrere Lanthanoide in deiner Hand. Sie finden sich
+                        auch in anderen Elektronikgeräten wie Flachbildschirmen, LEDs, Windkraftwerkmotoren, Batterien
+                        und Laptops wieder <sup>[1-2]</sup>.</p>
+                    <p>Nehmen wir Neodym als Beispiel, das in den Neodym-Eisen-Bor-Permanentmagneten in Smartphones
+                        dafür sorgt, dass es zu Vibrationen kommt <sup>[3]</sup>, sei es für Lautsprecher oder wenn eine
+                        WhatsApp-Nachricht ankommt. Weiterhin erlaubt die Stärke der Magneten platzsparendere Bauweisen
+                        in Elektronikgeräten.</p>
+                    <p>In verschiedensten Glasanwendungen werden zur entsprechenden Färbung und Veränderung der
+                        Glaseigenschaften ebenfalls Lanthanoide beigesetzt, so auch bei der Kamera des Smartphones. Hier
+                        liegen bis zu 20 % an entweder Lanthan- oder Neodymoxiden vor <sup>[4]</sup>.</p>
+                    <p>Solche Glasanwendungen finden sich unter anderem auch in Lasern wieder <sup>[2-4]</sup>. Diese
+                        sind vor
+                        allem für analytische Zwecke relevant <sup>[4]</sup>.</p>
+                    <p>Lanthan und Neodym finden sich ebenfalls als weniger toxische Variante in Batterien hauptsächlich
+                        in Form einer Lanthan-Nickel-Legierung wieder, etwa in Laptops <sup>[2]</sup>.</p>
+                    <p>Ganz andere Anwendungen finden sich mit Europium passenderweise in unseren Euroscheinen. Dort
+                        dient es in Form eines Komplexes als Lumineszenzmittel. Dies wird dazu genutzt, um Fälschungen
+                        zu erschweren und echte Geldscheine verifizieren zu können <sup>[2]</sup>. Diese farbgebende
+                        Eigenschaft
+                        wird sich auch noch bei Yttrium und Terbium bei LEDs zunutze gemacht <sup>[2-3]</sup>.</p>
+                    <p>Zuletzt laufen wir dem Lanthanoid Cer tagtäglich über den Weg. Zum einen wird es mit Lanthan als
+                        Trägermaterial in Autokatalysatoren genutzt <sup>[3]</sup>. Zum anderen findet sich Cer als
+                        Zündquelle in
+                        jedem Feuerzeug wieder. Hierbei liegt es als Legierung mit Eisen als Zündstein vor, welcher
+                        Funkenbildung leicht ermöglicht <sup>[3]</sup>.</p>
+                    <div class="media-container">
+                        <img src="../../Medien/3) Lanthanoid-Bedeutung-Unterrichtseinheit/Alltagsanwendungen.jpg"
+                            alt="Beispielhafte Anwendungen im Alltag von Seltenen Erden">
+                        <div class="media-caption"><b>Abb. 2: Beispielhafte Anwendungen im Alltag von Seltenen
+                                Erden.</b></div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Medizinische Anwendungen -->
+            <details>
+                <summary>Medizinische Anwendungen</summary>
+                <div class="details-content">
+                    <p>Seltene Erden spielen für unseren Organismus keine wichtige Rolle. Darin liegt jedoch ihre Stärke
+                        für medizinische Anwendungen. Hierdurch kommt es mit geringerer Wahrscheinlichkeit zu
+                        ungewünschten Nebeneffekten.</p>
+                    <p>Eine der bekanntesten Anwendungen findet sich mit diversen Gadoliniumkomplexen (z.B. Abb. 3) bei
+                        der Bildgebung in der Magnetresonanztomographie (MRT). Hier ermöglicht das Gadolinium eine
+                        Verbesserung des Bildkontrasts aufgrund seiner magnetischen Eigenschaften. Die Verbesserung geht
+                        auf die verminderte Messzeit und gewebespezifische Ausrichtung zurück. Dies lässt sich auf die
+                        größtmögliche Anzahl an ungepaarten Elektronen unter allen Lanthanoiden zurückführen. Weiterhin
+                        ist der sich bildende Komplex auch mit dem Wasser aus dem umliegenden biologischen Gewebe nicht
+                        toxisch und vor allem stabil. Wäre er instabil, würde der Komplex zu schnell zerfallen, was eine
+                        Toxizität durch freie Gadoliniumionen zur Folge hätte. Das hat auch eine effiziente und
+                        vollständige Ausscheidung zur Folge <sup>[5]</sup>. Eine Vielzahl an verschiedenen Komplexen
+                        kann je nach
+                        Zielort im Körper und medizinischem Hintergrund des Patienten genutzt werden <sup>[2, 5]</sup>.
+                    </p>
+                    <div class="media-container">
+                        <img src="../../Medien/3)%20Lanthanoid-Bedeutung-Unterrichtseinheit/%5BGd(dota)(H2O)%5D-5.jpg"
+                            alt="Gadolinium-Komplex als Kontrastmittel im MRT">
+                        <div class="media-caption"><b>Abb. 3: Gadolinium-Komplex als Kontrastmittel im MRT.</b> Häufig
+                            genutzter Gadolinium-Komplex für diverse MRT Anwendungen. Es handelt sich hierbei um
+                            [Gd(dota)(H2O)]- <sup>[5]</sup>.</div>
+                    </div>
+                    <p>Eine weitere wichtige Anwendung liegt in der Krebstherapie. Diese kann therapeutisch oder
+                        palliativ erfolgen. In der Regel werden Isotope verwendet, welche Strahlung (ß-Strahlung) in das
+                        Gewebe abgeben und somit zur Detektion oder zur Bekämpfung von Tumoren dienen <sup>[2, 6]</sup>.
+                        Besonders
+                        die relativ große Penetrationstiefe in das Gewebe (2-12 mm) erlaubt eine sorgfältige Zerstörung
+                        der Tumorzellen. Besonders häufig werden Yttrium-90 (<sup>90</sup>Y), Lutetium-177
+                        (<sup>177</sup>Lu), Samarium-153
+                        (<sup>153</sup>Sm) und Holmium-166 (<sup>166</sup>Ho) angewandt <sup>[6]</sup>.</p>
+                    <p>Vor allem <sup>153</sup>Sm wird spezifisch in der Knochenkrebstherapie angewandt, welche durch
+                        die hohe
+                        Mortalität der Erkrankung (30-50 % je nach Krebstyp) besonders relevant ist <sup>[5, 7]</sup>.
+                        Es wird als
+                        Komplex (z.B. Abb. 4) verabreicht, um die Schmerzen zu lindern. Das Samarium wird dabei gegen
+                        das Calcium im Knochen ausgetauscht und bestrahlt somit die Region.</p>
+                    <div class="media-container">
+                        <img src="../../Medien/3) Lanthanoid-Bedeutung-Unterrichtseinheit/153Sm-EDTMP.jpg"
+                            alt="153Samarium-Komplex als Schmerzmittel bei Knochenkrebs">
+                        <div class="media-caption"><b>Abb. 4: <sup>153</sup>Samarium-Komplex als Schmerzmittel bei
+                                Knochenkrebs.</b> Es
+                            handelt sich hierbei um ein DOTA Analogon mit Phosphonaten, welches als Samarium-153 EDTMP
+                            bezeichnet wird <sup>[7]</sup>.</div>
+                    </div>
+                    <p>Es gibt aber auch nicht-radioaktive Anwendungen. So kommen etwa Lanthan- und Gadolinium-Komplexe
+                        zur Krebsbehandlung zum Einsatz. Andere Krankheitsbilder, die behandelt werden können, sind
+                        Hyperphosphatämie mittels lanthanbasierter Therapeutika und Verbrennungen mittels Cer aufgrund
+                        seiner antibakteriellen und immunmodulierenden Eigenschaften <sup>[8]</sup>.</p>
+                </div>
+            </details>
+
+            <!-- Geopolitik & Recycling -->
+            <details>
+                <summary>Geopolitik & Recycling</summary>
+                <div class="details-content">
+                    <p>Obwohl der Name „Seltene Erden“ impliziert, dass sie nicht häufig vorkommen, ist dem nicht so.
+                        Vielmehr sind sie sehr verteilt und kommen selten in konzentrierten Lagerstätten vor. So kommt
+                        zum Beispiel das häufigste Seltene Erden Element Cer teils drei bis viermal häufiger in der
+                        Erdkruste vor als Kupfer oder Zink <sup>[1-2, 5, 9]</sup>. Selbst die Lanthanoide Thulium und
+                        Lutetium
+                        kommen deutlich häufiger als Silber und Platin vor <sup>[2]</sup>.</p>
+                    <p>Die mit Abstand größten Lagerstätten finden sich in Chinas Mongolei namens Bayan Obo <sup>[2, 5,
+                            10]</sup>.
+                        Das zweitgrößte Vorkommnis findet sich in Kalifornien am Mountain Pass in den USA. Weiterhin
+                        besitzt Australien noch mehrere Minen in denen Seltene Erden gefördert werden können <sup>[5,
+                            11]</sup>.
+                    </p>
+                    <p>Die Seltenen Erden liegen als Erze, etwa als Oxide, mit anderen Gesteinen vor. Das heißt, sie
+                        müssen noch aufgearbeitet werden. Dementsprechend gibt es eine Unterteilung in Förderung,
+                        Aufarbeitung und letztlich dem Verbrauch.</p>
+                    <p>China liegt dabei in allen drei Kategorien weit vorne. Allein in der Förderung machte China über
+                        zwei Drittel der globalen Gesamtförderung aus (Abb. 5). 2022 lag diese beispielsweise bei etwa
+                        210.000 bis 300.000 Tonnen <sup>[12]</sup>, wobei sie global bei circa 350.000 im Jahre 2023
+                        lag. Was die
+                        Aufarbeitung angeht so liegt China mit circa 85 % weit vorne. Diese Gegebenheiten geben China
+                        die Möglichkeit, auch selbst mit 150.000 Tonnen (2020) der größte Konsument zu sein. An dieser
+                        Stelle sei angemerkt, dass eine globale Nachfrage von 519.000 Tonnen für 2030 vorhergesagt wird
+                        <sup>[1]</sup>.
+                    </p>
+                    <p>Durch die immer höhere Nachfrage und den immer höheren Verbrauch werden solche Lagerstätten
+                        dementsprechend immer wertvoller <sup>[13]</sup>.</p>
+                    <p>Ein prominentes Beispiel hierfür ist die zu erwartende Knappheit an Neodym <sup>[1, 10,
+                            12]</sup>. Da
+                        Seltene Erden wie Neodym essenziell für sauberere Energien sind, hängt ihre erhöhte Nachfrage
+                        zudem mit dem Kampf gegen den Klimawandel zusammen <sup>[3, 10]</sup>. Ein ausschließlicher
+                        Verlass auf die
+                        natürlichen Lagerstätten ist jedoch nicht möglich. Dahingehend muss nach Alternativen wie dem
+                        Recycling gesucht werden. Durch ihren hohen Nutzen in Anwendungen könnte sich somit einiges an
+                        Rohstoff zurückgewinnen lassen. Häufig werden auch Alternativen diskutiert, welche im Falle von
+                        Seltenen Erden durch ihre spezifischen optischen und magnetischen Eigenschaften und
+                        Spezialanwendungen jedoch schlichtweg nicht vorliegen <sup>[3]</sup>. Die ähnlichen
+                        Eigenschaften der
+                        verschiedenen Seltenen Erden erschweren dies zusätzlich. Dasselbe gilt schon bei der Gewinnung,
+                        da diese häufig umweltbelastende Extraktionsverfahren benötigt <sup>[2-3, 10]</sup>. Diese
+                        können z.B. zu
+                        Übersäuern von Boden und Grundwasser oder auch Erosion des Bodens führen, was sämtliche
+                        Lebewesen beeinflusst.</p>
+                    <p>Daher wird ein Großteil der Aufarbeitung in Länder ausgelagert, die weniger strenge Regulatorien
+                        besitzen, was Malaysia zum zweit stärksten Aufbereiter nach China macht, obwohl diese keine so
+                        große Vorkommnisse wie die USA oder Australien besitzen. Vor allem letztere lagern diese aus
+                        <sup>[1,
+                            3]</sup>. Solche Regulatorien liegen besonders in Ländern der EU und somit auch Grönland
+                        (Teil von
+                        Dänemark) vor. Vor allem letztere hat einen vielversprechenden Ausblick als Abbauort für Erze
+                        der Seltenen Erden. Jedoch hat China grundlegende wirtschaftliche und geologische Vorteile durch
+                        geringere Lohnkosten und weniger hartes Gestein.</p>
+                    <p>So müsste zum Beispiel Dänemark, damit es konkurrenzfähig wäre und die globale Nachfrage bedienen
+                        könnte, neue Technologien entwickeln, um effektiv Seltene Erden fördern zu können. Weiterhin
+                        müssen entsprechende umweltschützende Regulatorien eingehalten werden können, bestenfalls ohne
+                        ein Auslagern der Problematik. Denn auch Länder wie Malaysia sind Teil unserer Erde und lassen
+                        Umweltprobleme nicht verschwinden, sie betreffen uns weiterhin. Auch Länder ohne jegliche
+                        Vorkommen könnten durch erfolgreiches Recycling ihren Beitrag gegen die kommende
+                        Rohstoffknappheit leisten. Sobald Lösungen gefunden wurden, können auch andere Länder China
+                        Konkurrenz machen und somit den Markt und die globale Politik beeinflussen <sup>[1]</sup>.
+                        Dieses
+                        Zusammenspiel aus geologischen Gegebenheiten, globaler Relevanz der Metalle, wirtschaftlichen
+                        Potenzial formt häufig politische Entscheidungen.</p>
+                    <div class="media-container">
+                        <iframe
+                            src="../../Medien/3) Lanthanoid-Bedeutung-Unterrichtseinheit/Pie Chart REE Production.pdf"
+                            width="100%" height="500px"></iframe>
+                        <div class="media-caption"><b>Abb. 5: Die prozentuale Verteilung der globalen Förderung an
+                                Seltenen
+                                Erden anhand einer Auswahl an Ländern.</b> Den größten Anteil der globalen Förderung an
+                            Seltenen
+                            Erden macht China aus mit 70 %. Gefolgt von den USA und Australien. Die genauen Zahlen
+                            können je nach Quelle und Schätzung abweichen, dieser generelle Trend bleibt jedoch
+                            bestehen. Die Zahlen gelten für das gesamte Jahr 2022 <sup>[2, 12]</sup>.</div>
+                    </div>
+                </div>
+            </details>
+
+            <div class="panel" style="margin-top: 3rem;">
+                <h2>Aufgabe</h2>
+                <p>Erstelle eine Mind-Map, die die Zusammenhänge von Ökonomie, Alltagsleben, geologischem Vorkommen von
+                    Rohstoffen, Umwelt und Politik aufgrund der Seltenen Erden <b>darstellen</b>.</p>
+                <details style="margin-top: 1.5rem; border-color: var(--primary-2); box-shadow: none;">
+                    <summary style="color: var(--primary-2); font-size: var(--text-base);">Tipp: Fragen, die dir bei der
+                        Erstellung der Mind-Map weiterhelfen könnten:</summary>
+                    <div class="details-content" style="border-color: var(--primary-2);">
+                        <ul style="margin: 0; padding-left: 1.5rem; line-height: 1.8;">
+                            <li>„Wer hat ein berechtigtes Interesse zur Erlangung von Seltenen Erden?“</li>
+                            <li>„Warum besteht dieses Interesse?“</li>
+                            <li>„Wie können verschiedene Länder Zugang zu Seltene Erden erhalten?“</li>
+                            <li>„Wer hat zurzeit hohen Einfluss auf den Zugang zu Seltenen Erden und warum?“</li>
+                            <li>„Wie könnte sich der Einfluss politisch äußern?“</li>
+                            <li>„Wie betreffen uns all diese Aspekte im Alltag?“</li>
+                            <li>„Welchen Einfluss haben Seltene Erden auf die Umwelt (z.B. Gewinnung, Aufarbeitung,
+                                Politik, Ökonomie, etc.)?“</li>
+                            <li>„Wie könnten die Auswirkung auf die Umwelt politische Entscheidung und letztlich uns im
+                                Alltag betreffen?“</li>
+                        </ul>
+                    </div>
+                </details>
+            </div>
+
+            <details
+                style="margin-top: 3rem; background: transparent; box-shadow: none; border-color: transparent; padding: 0;">
+                <summary
+                    style="font-size: var(--text-sm); color: var(--muted); justify-content: flex-start; gap: 0.5rem; padding: 0;">
+                    Quellenverzeichnis</summary>
+                <div class="details-content"
+                    style="font-size: var(--text-sm); color: var(--muted); border-top: none; padding-top: 0;">
+                    <ol style="padding-left: 1.5rem;">
+                        <li>T.-Y. Zhao, W.-L. Li, S. Kelebek, Y. Choi, C.-Q. Wu, W.-J. Zhang, C.-Y. Wang, Z.-W. Zhao, F.
+                            Sadri, Rare Metals <b>2025</b>, 44, 7011-7040.</li>
+                        <li>S. Cotton, Lanthanide and Actinide Chemistry, Wiley, <b>2024</b>.</li>
+                        <li>L. Marschall, H. Holdinghausen, Seltene Erden: umkämpfte Rohstoffe des Hightech-Zeitalters,
+                            Oekom verlag, <b>2018</b>.</li>
+                        <li>A. Golloch, B. Hu, M. He, N. Jakubowski, J. Meinhardt, F. M. Meyer, J. Niederstraßer, R.
+                            Schramm, S. Sindern, H. G. Stosch, Handbook of Rare Earth Elements: Analytics, De Gruyter,
+                            <b>2017</b>.
+                        </li>
+                        <li>D. A. Atwood, The Rare Earth Elements: Fundamentals and Applications, Wiley, <b>2012</b>.
+                        </li>
+                        <li>S. Liu, Chemical Society reviews <b>2004</b>, 33, 445-461.</li>
+                        <li>H. Hosseini, S. Heydari, K. Hushmandi, S. Daneshi, R. Raesi, BMC Cancer <b>2025</b>, 25,
+                            321.</li>
+                        <li>S. P. Fricker, Chemical Society Reviews <b>2006</b>, 35, 524-533.</li>
+                        <li>F. F. d. Medeiros, A. P. Wentz, B. A. S. Castro, F. D. Rodrigues, S. S. Alves, M. d. G. A.
+                            Korn, J. Bettini, J. P. d. Anjos, L. L. N. Guarieiro, Applied Sciences <b>2025</b>, 15,
+                            10949.</li>
+                        <li>G. G. Zaimes, B. J. Hubler, S. Wang, V. Khanna, ACS Sustainable Chemistry & Engineering
+                            <b>2015</b>, 3, 237-244.
+                        </li>
+                        <li>N. Haque, A. Hughes, S. Lim, C. Vernon, Resources <b>2014</b>, 3, 614-635.</li>
+                        <li>S.-L. Liu, H.-R. Fan, X. Liu, J. Meng, A. R. Butcher, L. Yann, K.-F. Yang, X.-C. Li, Ore
+                            Geology Reviews <b>2023</b>, 157, 105428.</li>
+                        <li>S. Yu, H. Duan, J. Cheng, Resources Policy <b>2021</b>, 70, 101891.</li>
+                    </ol>
+                </div>
+            </details>
+        </main>
+    </div>
+    <script>
+        // Theme Toggle Logic
+        const themeToggle = document.querySelector('.theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('hsab-theme', newTheme);
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('hsab-theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            }
+        });
+    </script>
+</body>
+
+</html>
